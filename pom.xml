@@ -6,6 +6,7 @@
 
     <groupId>org.lwjglbs</groupId>
     <artifactId>book</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
 
     <properties>
@@ -106,6 +107,7 @@
     </profiles>
 
     <modules>
-
+        <module>chapter1</module>
+        <module>chapter2</module>
     </modules>
 </project>
