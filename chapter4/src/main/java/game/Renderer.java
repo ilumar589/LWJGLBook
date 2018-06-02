@@ -55,6 +55,7 @@ public class Renderer {
             // Define structure of data
             glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
+            // unbind vbo
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             // Unbind the VAO

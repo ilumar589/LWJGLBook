@@ -1,4 +1,4 @@
-package engine.graph;
+package org.lwjgl.engine.graph;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -12,9 +12,8 @@ public class ShaderProgram {
 
     public ShaderProgram() throws Exception {
         programId = glCreateProgram();
-
         if (programId == 0) {
-            throw new Exception("Could not create shader");
+            throw new Exception("Could not create Shader");
         }
     }
 
@@ -26,29 +25,7 @@ public class ShaderProgram {
         fragmentShaderId = createShader(shaderCode, GL_FRAGMENT_SHADER);
     }
 
-    public void link() throws Exception {
-        glLinkProgram(programId);
-
-        if (glGetProgrami(programId, GL_LINK_STATUS) == 0) {
-            throw new Exception("Error linking shader code: " + glGetProgramInfoLog(programId, 1024));
-        }
-
-        if (vertexShaderId != 0) {
-            glDetachShader(programId, vertexShaderId);
-        }
-
-        if (fragmentShaderId != 0) {
-            glDetachShader(programId, fragmentShaderId);
-        }
-
-        glValidateProgram(programId);
-
-        if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
-            System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
-        }
-    }
-
-    private int createShader(String shaderCode, int shaderType) throws Exception {
+    protected int createShader(String shaderCode, int shaderType) throws Exception {
         int shaderId = glCreateShader(shaderType);
         if (shaderId == 0) {
             throw new Exception("Error creating shader. Type: " + shaderType);
@@ -58,12 +35,31 @@ public class ShaderProgram {
         glCompileShader(shaderId);
 
         if (glGetShaderi(shaderId, GL_COMPILE_STATUS) == 0) {
-            throw new Exception("Error compiling shader code: " + glGetShaderInfoLog(shaderId, 1024));
+            throw new Exception("Error compiling Shader code: " + glGetShaderInfoLog(shaderId, 1024));
         }
 
         glAttachShader(programId, shaderId);
 
         return shaderId;
+    }
+
+    public void link() throws Exception {
+        glLinkProgram(programId);
+        if (glGetProgrami(programId, GL_LINK_STATUS) == 0) {
+            throw new Exception("Error linking Shader code: " + glGetProgramInfoLog(programId, 1024));
+        }
+
+        if (vertexShaderId != 0) {
+            glDetachShader(programId, vertexShaderId);
+        }
+        if (fragmentShaderId != 0) {
+            glDetachShader(programId, fragmentShaderId);
+        }
+
+        glValidateProgram(programId);
+        if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
+            System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
+        }
     }
 
     public void bind() {
