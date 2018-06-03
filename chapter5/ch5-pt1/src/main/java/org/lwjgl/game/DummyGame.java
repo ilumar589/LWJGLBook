@@ -26,13 +26,20 @@ public class DummyGame implements IGameLogic {
     public void init() throws Exception {
         renderer.init();
         float[] positions = new float[]{
-            -0.5f, 0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.5f, 0.5f, 0.0f,};
+            -0.5f, 0.5f, 0.0f, // v1 (0)
+            -0.5f, -0.5f, 0.0f, // v2 (1)
+            0.5f, -0.5f, 0.0f, // v3 (2)
+            0.5f, 0.5f, 0.0f,}; // v4 (3)
         int[] indices = new int[]{
             0, 1, 3, 3, 1, 2,};
-        mesh = new Mesh(positions, indices);
+
+        float[] colours = new float[]{
+                0.5f, 0.0f, 0.0f,
+                0.0f, 0.5f, 0.0f,
+                0.0f, 0.0f, 0.5f,
+                0.0f, 0.5f, 0.5f,
+        };
+        mesh = new Mesh(positions, indices, colours);
     }
 
     @Override
