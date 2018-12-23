@@ -13,11 +13,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <built.by>lwjglgamedev</built.by>
         <main.class>org.lwjglb.game.Main</main.class>
-        <java.version>10</java.version>
+        <java.version>11</java.version>
         <mvn.complilerplug.version>3.7.0</mvn.complilerplug.version>
         <mvn.jarplug.version>3.0.2</mvn.jarplug.version>
-        <lwjgl.version>3.1.6</lwjgl.version>
-        <joml.version>1.9.9</joml.version>
+        <lwjgl.version>3.2.1</lwjgl.version>
+        <joml.version>1.9.12</joml.version>
         <pngdecoder.version>1.0</pngdecoder.version>
     </properties>
 
