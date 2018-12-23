@@ -19,6 +19,7 @@
         <lwjgl.version>3.2.1</lwjgl.version>
         <joml.version>1.9.12</joml.version>
         <pngdecoder.version>1.0</pngdecoder.version>
+        <lwjgl.natives>natives-windows</lwjgl.natives>
     </properties>
 
     <build>
