@@ -56,6 +56,7 @@ public class Main {
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer triangleDataBuffer = stack.mallocFloat(triangleData.length);
+            triangleDataBuffer.put(triangleData).flip();
 
             VAO = glGenVertexArrays();
             VBO = glGenBuffers();
@@ -66,11 +67,10 @@ public class Main {
 
             glBufferData(GL_ARRAY_BUFFER, triangleDataBuffer, GL_STATIC_DRAW);
 
-            glVertexAttribPointer(0, 3, GL_FLOAT, false, 32, 0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * Float.BYTES, 0);
             glEnableVertexAttribArray(0);
 
-
-            glVertexAttribPointer(1, 3, GL_FLOAT, false, 32,  12L);
+            glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * Float.BYTES, 3 * Float.BYTES);
             glEnableVertexAttribArray(1);
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
