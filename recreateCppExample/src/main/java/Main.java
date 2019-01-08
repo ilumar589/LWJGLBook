@@ -77,7 +77,13 @@ public class Main {
             glBindVertexArray(0);
         }
 
+        int texture = Shader.loadAndCreateTexture();
+
         while (!glfwWindowShouldClose(windowHandle)) {
+
+            // bind texture
+            glBindTexture(GL_TEXTURE_2D, texture);
+
             shader.use();
 
             glBindVertexArray(VAO);
