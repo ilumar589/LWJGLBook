@@ -99,6 +99,8 @@ public class Shader {
             System.out.println("Image HDR: " + stbi_is_hdr_from_memory(imageBuffer));
 
             // Decode the image
+//            ByteBuffer image = stbi_load("D:\\WorkZone\\Projects\\JavaProjects\\LWJGLBook\\recreateCppExample\\src\\main\\resources\\wall.jpg", w, h, comp, 0);
+
             ByteBuffer image = stbi_load_from_memory(imageBuffer, w, h, comp, 0);
             if (image == null) {
                 throw new RuntimeException("Failed to load image: " + stbi_failure_reason());
