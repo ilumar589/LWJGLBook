@@ -16,6 +16,9 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 public class Main {
 
     public static void main(String[] args) {
+
+        SomeMath.someMathFunc();
+
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
