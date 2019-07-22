@@ -113,5 +113,6 @@
         <module>chapter4</module>
         <module>chapter5/ch5-pt1</module>
         <module>recreateCppExample</module>
+        <module>vulkan-learning</module>
     </modules>
 </project>
