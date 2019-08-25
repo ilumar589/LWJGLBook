@@ -23,13 +23,13 @@ public class DummyGame implements IGameLogic {
     }
 
     @Override
-    public void init() throws Exception {
-        renderer.init();
+    public void init(Window window) throws Exception {
+        renderer.init(window);
         float[] positions = new float[]{
-            -0.5f, 0.5f, 0.0f, // v1 (0)
-            -0.5f, -0.5f, 0.0f, // v2 (1)
-            0.5f, -0.5f, 0.0f, // v3 (2)
-            0.5f, 0.5f, 0.0f,}; // v4 (3)
+            -0.5f, 0.5f, -1.5f, // v1 (0)
+            -0.5f, -0.5f, -1.5f, // v2 (1)
+            0.5f, -0.5f, -1.5f, // v3 (2)
+            0.5f, 0.5f, -1.5f,}; // v4 (3)
 
         int[] indices = new int[]{
             0, 1, 3, 3, 1, 2,};

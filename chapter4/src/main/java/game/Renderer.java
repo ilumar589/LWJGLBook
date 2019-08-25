@@ -61,34 +61,6 @@ public class Renderer {
             // Unbind the VAO
             glBindVertexArray(0);
         }
-
-//        FloatBuffer verticesBuffer = null;
-//        try {
-//            verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
-//            verticesBuffer.put(vertices).flip();
-//
-//            // Create VAO and bind to it
-//            vaoId = glGenVertexArrays();
-//            glBindVertexArray(vaoId);
-//
-//            // Create VBO and bind to it
-//            vboId = glGenBuffers();
-//            glBindBuffer(GL_ARRAY_BUFFER, vboId);
-//            glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
-//
-//            // Define structure of data
-//            glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-//
-//            // unbind vbo
-//            glBindBuffer(GL_ARRAY_BUFFER, 0);
-//
-//            // Unbind the VAO
-//            glBindVertexArray(0);
-//        } finally {
-//            if (verticesBuffer != null) {
-//                MemoryUtil.memFree(verticesBuffer);
-//            }
-//        }
     }
 
     public void clear() {

@@ -49,8 +49,8 @@ public class Main {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
 
-        int WIDTH = 300;
-        int HEIGHT = 300;
+        final int WIDTH = 300;
+        final int HEIGHT = 300;
 
         // Create the window
         window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);

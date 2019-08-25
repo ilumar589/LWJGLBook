@@ -92,7 +92,6 @@ public class HelloTriangleApplication {
 
             List<VkExtensionProperties> extensions = new ArrayList<>(extensionCountBuffer.get());
 
-            vkEnumerateInstanceExtensionProperties();
         }
 
     }
