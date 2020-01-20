@@ -41,11 +41,10 @@ public class Main {
         glViewport(0, 0, 800, 600);
 
         // Setup resize callback
-        glfwSetFramebufferSizeCallback(windowHandle, (window, width, height) -> {
-            glViewport(0, 0, width, height);
-        });
+        glfwSetFramebufferSizeCallback(windowHandle, (window, width, height) -> glViewport(0, 0, width, height));
 
         Shader shader = new Shader("vertex.glsl", "fragment.glsl");
+        Texture texture = new Texture();
 
         // setup triangle vertices
         float[] triangleData = {
@@ -64,7 +63,7 @@ public class Main {
             VAO = glGenVertexArrays();
             VBO = glGenBuffers();
 
-            glBindVertexArray(VAO);
+            glBindVertexArray(VAO); // vertex attribute arrays are objects that allow us to define multiple vertex attribute pointers towards a vertex buffer object
 
             glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
@@ -83,13 +82,9 @@ public class Main {
             glBindVertexArray(0);
         }
 
-        int texture = Shader.loadAndCreateTexture();
-
         while (!glfwWindowShouldClose(windowHandle)) {
 
-            // bind texture
-            glBindTexture(GL_TEXTURE_2D, texture);
-
+            texture.useTexture();
             shader.use();
 
             glBindVertexArray(VAO);
