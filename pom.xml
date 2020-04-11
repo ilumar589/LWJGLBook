@@ -13,8 +13,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <built.by>lwjglgamedev</built.by>
         <main.class>org.lwjglb.game.Main</main.class>
-        <java.version>11</java.version>
-        <mvn.complilerplug.version>3.7.0</mvn.complilerplug.version>
+        <java.version>14</java.version>
+        <mvn.complilerplug.version>3.8.1</mvn.complilerplug.version>
         <mvn.jarplug.version>3.0.2</mvn.jarplug.version>
         <lwjgl.version>3.2.3</lwjgl.version>
         <joml.version>1.9.20</joml.version>
@@ -31,6 +31,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
