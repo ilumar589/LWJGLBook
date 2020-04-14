@@ -44,7 +44,7 @@ public class Main {
         glfwSetFramebufferSizeCallback(windowHandle, (window, width, height) -> glViewport(0, 0, width, height));
 
         Shader shader = new Shader("vertex.glsl", "fragment.glsl");
-        Texture texture = new Texture();
+        Texture texture = new Texture(glGenTextures(), "wall.jpg");
 
         // setup triangle vertices
         float[] triangleData = {

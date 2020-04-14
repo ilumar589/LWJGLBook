@@ -1,15 +1,10 @@
 import org.lwjgl.system.MemoryStack;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.glGenerateMipmap;
-import static org.lwjgl.stb.STBImage.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-@InlineClassCandidate
 public final class Shader {
 
     private int shaderProgramId;

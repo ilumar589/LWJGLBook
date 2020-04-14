@@ -1,5 +1,3 @@
-import org.lwjgl.BufferUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -12,7 +10,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import static org.lwjgl.BufferUtils.createByteBuffer;
+import static org.lwjgl.system.MemoryUtil.memAlloc;
+import static org.lwjgl.system.MemoryUtil.memFree;
 
 public class Utils {
 
@@ -25,22 +24,22 @@ public class Utils {
         return result;
     }
 
+    //Warning, this version uses manual memory allocation/free for the byte buffer
     public static ByteBuffer ioResourceToByteBuffer(String resource, int bufferSize) throws IOException {
         ByteBuffer buffer;
 
         Path path = Paths.get(resource);
         if (Files.isReadable(path)) {
             try (SeekableByteChannel fc = Files.newByteChannel(path)) {
-                buffer = createByteBuffer((int)fc.size() + 1);
-                while (fc.read(buffer) != -1) {
-                }
+                buffer = memAlloc((int)fc.size() + 1);
+                while (fc.read(buffer) != -1){}
             }
         } else {
             try (
                     InputStream source = Utils.class.getClassLoader().getResourceAsStream(resource);
                     ReadableByteChannel rbc = Channels.newChannel(source)
             ) {
-                buffer = createByteBuffer(bufferSize);
+                buffer = memAlloc(bufferSize);
 
                 while (true) {
                     int bytes = rbc.read(buffer);
@@ -48,7 +47,7 @@ public class Utils {
                         break;
                     }
                     if (buffer.remaining() == 0) {
-                        buffer = resizeBuffer(buffer, buffer.capacity() * 3 / 2); // 50%
+                        buffer = resizeBuffer(buffer.flip(), buffer.capacity() * 3 / 2); // 50%
                     }
                 }
             }
@@ -59,9 +58,11 @@ public class Utils {
     }
 
     private static ByteBuffer resizeBuffer(ByteBuffer buffer, int newCapacity) {
-        ByteBuffer newBuffer = BufferUtils.createByteBuffer(newCapacity);
-        buffer.flip();
+        ByteBuffer newBuffer = memAlloc(newCapacity);
         newBuffer.put(buffer);
+
+        memFree(buffer);
+
         return newBuffer;
     }
 }

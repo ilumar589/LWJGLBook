@@ -9,16 +9,28 @@ import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
 import static org.lwjgl.stb.STBImage.stbi_image_free;
+import static org.lwjgl.system.MemoryUtil.memFree;
 
-@InlineClassCandidate
 public final class Texture {
 
-    private int texture;
+    private final int textureHandle;
+    private final String textureLocation;
 
     // Util just for tests
-    public Texture() {
-        texture = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, texture);
+    public Texture(int textureHandle, String textureLocation) {
+        this.textureHandle = textureHandle;
+        this.textureLocation = textureLocation;
+
+        bindTexture();
+    }
+
+    public void useTexture() {
+        // bind texture
+        glBindTexture(GL_TEXTURE_2D, textureHandle);
+    }
+
+    private void bindTexture() {
+        glBindTexture(GL_TEXTURE_2D, textureHandle);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -28,14 +40,14 @@ public final class Texture {
         ByteBuffer imageBuffer;
 
         try {
-            imageBuffer = Utils.ioResourceToByteBuffer("wall.jpg", 8 * 1024);
+            imageBuffer = Utils.ioResourceToByteBuffer(textureLocation, 8 * 1024);
         } catch (IOException e) {
             throw new RuntimeException();
         }
 
-        try (MemoryStack stack  = MemoryStack.stackPush()) {
-            IntBuffer w    = stack.mallocInt(1);
-            IntBuffer h    = stack.mallocInt(1);
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer w = stack.mallocInt(1);
+            IntBuffer h = stack.mallocInt(1);
             IntBuffer comp = stack.mallocInt(1);
 
             // Use info to read image metadata without decoding the entire image.
@@ -63,11 +75,7 @@ public final class Texture {
             glGenerateMipmap(GL_TEXTURE_2D);
 
             stbi_image_free(image);
+            memFree(imageBuffer);
         }
-    }
-
-    public void useTexture() {
-        // bind texture
-        glBindTexture(GL_TEXTURE_2D, texture);
     }
 }
