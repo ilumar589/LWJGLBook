@@ -1,10 +1,12 @@
 import org.lwjgl.opengl.GL;
+import org.lwjgl.system.Configuration;
 import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
@@ -17,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        SomeMath.someMathFunc();
+        Configuration.DEBUG_MEMORY_ALLOCATOR.set(true);
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -28,6 +30,8 @@ public class Main {
 
         if (windowHandle == NULL) {
             System.out.println("Failed to create GLFW window");
+            glfwMakeContextCurrent(NULL);
+            GL.setCapabilities(null);
             glfwTerminate();
         }
 
@@ -90,16 +94,18 @@ public class Main {
             glBindVertexArray(VAO);
             glDrawArrays(GL_TRIANGLES, 0, 3);
 
-
             // check and call events and swap the buffers
             glfwSwapBuffers(windowHandle);
             glfwPollEvents();
 
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
-
         }
 
+        glfwFreeCallbacks(windowHandle);
+        glfwDestroyWindow(windowHandle);
+        glfwMakeContextCurrent(NULL);
+        GL.setCapabilities(null);
         glfwTerminate();
     }
 }

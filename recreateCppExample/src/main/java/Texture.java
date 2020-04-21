@@ -30,18 +30,19 @@ public final class Texture {
     }
 
     private void bindTexture() {
-        glBindTexture(GL_TEXTURE_2D, textureHandle);
+        useTexture();
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        ByteBuffer imageBuffer;
+        ByteBuffer image;
 
         try {
-            imageBuffer = Utils.ioResourceToByteBuffer(textureLocation, 8 * 1024);
+            image = Utils.ioResourceToByteBuffer(textureLocation, 8 * 1024);
         } catch (IOException e) {
+
             throw new RuntimeException();
         }
 
@@ -52,7 +53,7 @@ public final class Texture {
 
             // Use info to read image metadata without decoding the entire image.
             // We don't need this for this demo, just testing the API.
-            if (!stbi_info_from_memory(imageBuffer, w, h, comp)) {
+            if (!stbi_info_from_memory(image, w, h, comp)) {
                 throw new RuntimeException("Failed to read image information: " + stbi_failure_reason());
             } else {
                 System.out.println("OK with reason: " + stbi_failure_reason());
@@ -61,21 +62,21 @@ public final class Texture {
             System.out.println("Image width: " + w.get(0));
             System.out.println("Image height: " + h.get(0));
             System.out.println("Image components: " + comp.get(0));
-            System.out.println("Image HDR: " + stbi_is_hdr_from_memory(imageBuffer));
+            System.out.println("Image HDR: " + stbi_is_hdr_from_memory(image));
 
             // Decode the image
 //            ByteBuffer image = stbi_load("D:\\WorkZone\\Projects\\JavaProjects\\LWJGLBook\\recreateCppExample\\src\\main\\resources\\wall.jpg", w, h, comp, 0);
 
-            ByteBuffer image = stbi_load_from_memory(imageBuffer, w, h, comp, 0);
-            if (image == null) {
+            ByteBuffer decodedImage = stbi_load_from_memory(image, w, h, comp, 0);
+            if (decodedImage == null) {
                 throw new RuntimeException("Failed to load image: " + stbi_failure_reason());
             }
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w.get(), h.get(), 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w.get(), h.get(), 0, GL_RGB, GL_UNSIGNED_BYTE, decodedImage);
             glGenerateMipmap(GL_TEXTURE_2D);
 
-            stbi_image_free(image);
-            memFree(imageBuffer);
+            stbi_image_free(decodedImage);
+            memFree(image);
         }
     }
 }
