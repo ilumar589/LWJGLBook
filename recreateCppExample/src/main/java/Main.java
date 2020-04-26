@@ -51,23 +51,18 @@ public class Main {
         Shader shader = new Shader("vertex.glsl", "fragment.glsl");
         Texture texture = new Texture(glGenTextures(), "wall.jpg");
 
-        // setup triangle vertices
-        float[] firstTriangleData = {
+        TriangleGpuData firstTriangle = new TriangleGpuData(new float[]{
                 // positions            // colors           // texture coordinates
                 -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f
-        };
-
-        float[] secondTriangleData = {
+        });
+        TriangleGpuData secondTriangle = new TriangleGpuData(new float[]{
                 // positions            // colors           // texture coordinates
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
                 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f
-        };
-
-        TriangleGpuData firstTriangle = new TriangleGpuData(firstTriangleData);
-        TriangleGpuData secondTriangle = new TriangleGpuData(secondTriangleData);
+        });
 
         GpuData.unbindData();
 
