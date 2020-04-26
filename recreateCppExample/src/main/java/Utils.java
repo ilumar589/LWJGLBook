@@ -15,11 +15,13 @@ import static org.lwjgl.system.MemoryUtil.memFree;
 
 public class Utils {
 
-    public static String loadResource(String fileName) throws Exception {
-        String result;
+    public static String loadResource(String fileName) {
+        String result = null;
         try (InputStream in = Class.forName(Utils.class.getName()).getResourceAsStream(fileName);
              Scanner scanner = new Scanner(in, String.valueOf(StandardCharsets.UTF_8))) {
              result = scanner.useDelimiter("\\A").next();
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
         return result;
     }
