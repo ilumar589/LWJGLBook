@@ -16,11 +16,9 @@ public final class Texture {
     private final int textureHandle;
     private final String textureLocation;
 
-    // Util just for tests
     public Texture(int textureHandle, String textureLocation) {
         this.textureHandle = textureHandle;
         this.textureLocation = textureLocation;
-
         bindTexture();
     }
 
@@ -38,12 +36,10 @@ public final class Texture {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         ByteBuffer image;
-
         try {
             image = Utils.ioResourceToByteBuffer(textureLocation, 8 * 1024);
         } catch (IOException e) {
-
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -75,6 +71,8 @@ public final class Texture {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w.get(), h.get(), 0, GL_RGB, GL_UNSIGNED_BYTE, decodedImage);
             glGenerateMipmap(GL_TEXTURE_2D);
 
+            // by comparing content the image buffers don't seem to be pointing at the same data in memory
+            // hopefully we don't get undefined behaviour
             stbi_image_free(decodedImage);
             memFree(image);
         }

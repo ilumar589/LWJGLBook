@@ -3,6 +3,7 @@ import org.lwjgl.system.Configuration;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -11,8 +12,8 @@ import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.system.MemoryUtil.*;
 
 
 public class Main {
@@ -51,47 +52,33 @@ public class Main {
         Texture texture = new Texture(glGenTextures(), "wall.jpg");
 
         // setup triangle vertices
-        float[] triangleData = {
+        float[] firstTriangleData = {
                 // positions            // colors           // texture coordinates
-                -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-                0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f
+                -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f
         };
 
-        int VAO, VBO;
+        float[] secondTriangleData = {
+                // positions            // colors           // texture coordinates
+                0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+                1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f
+        };
 
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer triangleDataBuffer = stack.mallocFloat(triangleData.length);
-            triangleDataBuffer.put(triangleData).flip();
+        TriangleGpuData firstTriangle = new TriangleGpuData(firstTriangleData);
+        TriangleGpuData secondTriangle = new TriangleGpuData(secondTriangleData);
 
-            VAO = glGenVertexArrays();
-            VBO = glGenBuffers();
-
-            glBindVertexArray(VAO); // vertex attribute arrays are objects that allow us to define multiple vertex attribute pointers towards a vertex buffer object
-
-            glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-            glBufferData(GL_ARRAY_BUFFER, triangleDataBuffer, GL_STATIC_DRAW);
-
-            glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * Float.BYTES, 0);
-            glEnableVertexAttribArray(0);
-
-            glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * Float.BYTES, 3 * Float.BYTES);
-            glEnableVertexAttribArray(1);
-
-            glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * Float.BYTES, 6 * Float.BYTES);
-            glEnableVertexAttribArray(2);
-
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glBindVertexArray(0);
-        }
+        GpuData.unbindData();
 
         while (!glfwWindowShouldClose(windowHandle)) {
 
             texture.useTexture();
             shader.use();
 
-            glBindVertexArray(VAO);
+            glBindVertexArray(firstTriangle.getVertexArrayObject());
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+            glBindVertexArray(secondTriangle.getVertexArrayObject());
             glDrawArrays(GL_TRIANGLES, 0, 3);
 
             // check and call events and swap the buffers

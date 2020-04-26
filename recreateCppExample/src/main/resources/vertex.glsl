@@ -10,7 +10,7 @@ uniform float xAxisOffset;
 
 void main()
 {
-    gl_Position = vec4(aPos.x + xAxisOffset, -aPos.y, aPos.z, 1.0);
+    gl_Position = vec4(aPos.x + xAxisOffset, aPos.y, aPos.z, 1.0);
 	outputColor = vec4(aColor, 1.0);
 	textureCoordinate = aTextureCoordinate;
 }
