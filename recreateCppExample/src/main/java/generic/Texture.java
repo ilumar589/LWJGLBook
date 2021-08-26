@@ -1,3 +1,5 @@
+package generic;
+
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
@@ -11,10 +13,7 @@ import static org.lwjgl.stb.STBImage.*;
 import static org.lwjgl.stb.STBImage.stbi_image_free;
 import static org.lwjgl.system.MemoryUtil.memFree;
 
-public final class Texture {
-
-    private final int textureHandle;
-    private final String textureLocation;
+public record Texture(int textureHandle, String textureLocation) {
 
     public Texture(int textureHandle, String textureLocation) {
         this.textureHandle = textureHandle;
@@ -51,17 +50,12 @@ public final class Texture {
             // We don't need this for this demo, just testing the API.
             if (!stbi_info_from_memory(image, w, h, comp)) {
                 throw new RuntimeException("Failed to read image information: " + stbi_failure_reason());
-            } else {
-                System.out.println("OK with reason: " + stbi_failure_reason());
             }
 
             System.out.println("Image width: " + w.get(0));
             System.out.println("Image height: " + h.get(0));
             System.out.println("Image components: " + comp.get(0));
             System.out.println("Image HDR: " + stbi_is_hdr_from_memory(image));
-
-            // Decode the image
-//            ByteBuffer image = stbi_load("D:\\WorkZone\\Projects\\JavaProjects\\LWJGLBook\\recreateCppExample\\src\\main\\resources\\wall.jpg", w, h, comp, 0);
 
             ByteBuffer decodedImage = stbi_load_from_memory(image, w, h, comp, 0);
             if (decodedImage == null) {
