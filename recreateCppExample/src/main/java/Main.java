@@ -1,7 +1,6 @@
 import org.lwjgl.system.Configuration;
 
-import static examples.CoordinateSystemExamples.exCoordinateSystems;
-import static examples.CoordinateSystemExamples.rotatingCube;
+import static examples.CoordinateSystemExamples.*;
 
 
 public class Main {
@@ -11,7 +10,7 @@ public class Main {
         Configuration.DEBUG_MEMORY_ALLOCATOR.set(true);
 
 //        exCoordinateSystems();
-
-        rotatingCube();
+//        rotatingCube();
+        multipleRotatingCubes();
     }
 }
