@@ -1,4 +1,3 @@
-import generic.Shader;
 import org.lwjgl.system.Configuration;
 
 import static examples.Examples.exCoordinateSystems;
@@ -10,8 +9,7 @@ public class Main {
 
         Configuration.DEBUG_MEMORY_ALLOCATOR.set(true);
 
-//        exCoordinateSystems();
+        exCoordinateSystems();
 
-        Shader shader = new Shader("vertex.glsl", "fragment.glsl");
     }
 }

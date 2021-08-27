@@ -47,7 +47,7 @@ public final class Examples {
         glfwSetFramebufferSizeCallback(windowHandle, (window, width, height) -> glViewport(0, 0, width, height));
 
         // build and compile our shader program
-        Shader shader = new Shader("6.1.coordinate_systems_vs.glsl", "6.1.coordinate_systems_fs.glsl");
+        Shader shader = new Shader("/6.1.coordinate_systems_vs.glsl", "/6.1.coordinate_systems_fs.glsl");
 
 
         // set up vertex data
@@ -72,10 +72,10 @@ public final class Examples {
 
         glBindVertexArray(VAO);
 
-        glBindBuffer(1, VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW);
 
-        glBindBuffer(1, EBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
 
         //position attribute
@@ -100,9 +100,9 @@ public final class Examples {
             glClear(GL_COLOR_BUFFER_BIT);
 
             // bind texture on corresponding texture units
-            glActiveTexture(texture1.textureHandle());
+            glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, texture1.textureHandle());
-            glActiveTexture(texture2.textureHandle());
+            glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, texture2.textureHandle());
 
             // activate shader

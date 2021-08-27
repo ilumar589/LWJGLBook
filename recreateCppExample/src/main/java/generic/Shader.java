@@ -20,20 +20,20 @@ public final class Shader {
         int vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertexShaderId, vertexCode);
         glCompileShader(vertexShaderId);
-        logShaderStatus(vertexShaderId, GL_COMPILE_STATUS);
+        logShaderStatus(vertexShaderId);
 
         //====== FRAGMENT SHADER =====
         int fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragmentShaderId, fragmentCode);
         glCompileShader(fragmentShaderId);
-        logShaderStatus(fragmentShaderId, GL_COMPILE_STATUS);
+        logShaderStatus(fragmentShaderId);
 
         //===== LINK SHADERS TO A SHADER PROGRAM AND RELEASE SHADER RESOURCES
         shaderProgramId = glCreateProgram();
         glAttachShader(shaderProgramId, vertexShaderId);
         glAttachShader(shaderProgramId, fragmentShaderId);
         glLinkProgram(shaderProgramId);
-        logShaderStatus(shaderProgramId, GL_LINK_STATUS);
+        logProgramLinkStatus();
 
         //=== DELETE IN MEMORY SHADERS BECAUSE THEY ARE ALREADY ATTACHED TO THE SHADER PROGRAM
         glDeleteShader(vertexShaderId);
@@ -112,15 +112,25 @@ public final class Shader {
         glUniformMatrix4fv(glGetUniformLocation(shaderProgramId, name), false, value.get(mArray));
     }
 
-    private void logShaderStatus(int shaderId, int statusToCheck) {
+    private void logShaderStatus(int shaderId) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer success = stack.mallocInt(1);
 
-            glGetShaderiv(shaderId, statusToCheck, success);
+            glGetShaderiv(shaderId, GL_COMPILE_STATUS, success);
 
             if (success.get() == NULL) {
                 System.out.println(glGetShaderInfoLog(shaderId));
             }
+        }
+    }
+
+    private void logProgramLinkStatus() {
+        if (glGetProgrami(shaderProgramId, GL_LINK_STATUS) == 0) {
+            System.out.println(glGetProgramInfoLog(shaderProgramId));
+        }
+        glValidateProgram(shaderProgramId);
+        if (glGetProgrami(shaderProgramId, GL_VALIDATE_STATUS) == 0) {
+            System.out.println(glGetProgramInfoLog(shaderProgramId));
         }
     }
 }
