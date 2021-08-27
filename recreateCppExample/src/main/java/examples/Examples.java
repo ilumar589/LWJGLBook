@@ -86,9 +86,9 @@ public final class Examples {
         glEnableVertexAttribArray(1);
 
         // load image, create texture and generate mipmaps
-        stbi_set_flip_vertically_on_load(true);
+//        stbi_set_flip_vertically_on_load(true);
         Texture texture1 = new Texture(glGenTextures(), "wall.jpg");
-        Texture texture2 = new Texture(glGenTextures(), "awesome-face.png");
+        Texture texture2 = new Texture(glGenTextures(), "awesome-face.jpg");
 
         shader.use();
         shader.setInt("texture1", 0);
@@ -112,9 +112,9 @@ public final class Examples {
             Matrix4f model = new Matrix4f();
             Matrix4f view = new Matrix4f();
             Matrix4f projection = new Matrix4f();
-            model = model.rotate(-55f, 1.0f, 0.0f, 0.0f);
+            model = model.rotate(-35f, 1.0f, 0.0f, 0.0f);
             view = view.translate(0.0f, 0.0f, -3.0f);
-            projection = projection.perspective(45.0f, 800f / 600f, 0.1f, 100.0f);
+            projection = projection.perspective(45.0f, 800.0f / 600.0f, 0.1f, 100.0f);
             shader.setMat4("model", model);
             shader.setMat4("view", view);
             // note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.

@@ -52,6 +52,12 @@ public record Texture(int textureHandle, String textureLocation) {
                 throw new RuntimeException("Failed to read image information: " + stbi_failure_reason());
             }
 
+            // limit size
+//            w.put(512);
+//            w.flip();
+//            h.put(512);
+//            h.flip();
+
             System.out.println("Image width: " + w.get(0));
             System.out.println("Image height: " + h.get(0));
             System.out.println("Image components: " + comp.get(0));
