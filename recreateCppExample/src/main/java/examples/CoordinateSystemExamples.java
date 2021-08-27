@@ -4,6 +4,7 @@ import generic.Shader;
 import generic.Texture;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -154,14 +155,36 @@ public final class CoordinateSystemExamples {
             Matrix4f view = new Matrix4f();
             Matrix4f projection = new Matrix4f();
             view = view.translate(0.0f, 0.0f, -3.0f);
-            projection = projection.perspective(45.0f, 800.0f / 600.0f, 0.1f, 100.0f);
+            projection = projection.perspective(90.0f, 800.0f / 600.0f, 0.1f, 100.0f);
             shader.setMat4("view", view);
             // note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
             shader.setMat4("projection", projection);
 
+            final Vector3f rotationVector = new Vector3f(1.0f, 0.3f, 0.5f);
+
+            Matrix4f rotatingModel = new Matrix4f();
+            rotatingModel = rotatingModel.translate(cubePositions[0]);
+            rotatingModel = rotatingModel.rotate((float) glfwGetTime(), rotationVector);
+            shader.setMat4("model", rotatingModel);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            rotatingModel = new Matrix4f()
+                    .translate(cubePositions[3])
+                    .rotate((float) glfwGetTime(), rotationVector);
+
+            shader.setMat4("model", rotatingModel);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            rotatingModel = new Matrix4f()
+                    .translate(cubePositions[7])
+                    .rotate((float) glfwGetTime(), rotationVector);
+
+            shader.setMat4("model", rotatingModel);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
             // render container
             glBindVertexArray(VAO);
-            for (int i =0; i < 10; i++) {
+            for (int i = 2; i < 10; i+=3) {
 
                 // calculate the model matrix for each object and pass it to the shader before drawing
                 Matrix4f model = new Matrix4f();
@@ -308,7 +331,7 @@ public final class CoordinateSystemExamples {
             Matrix4f projection = new Matrix4f();
             model = model.rotate((float) glfwGetTime(), 0.5f, 1.0f, 0.0f);
             view = view.translate(0.0f, 0.0f, -3.0f);
-            projection = projection.perspective(45.0f, 800.0f / 600.0f, 0.1f, 100.0f);
+            projection = projection.perspective(90.0f, 800.0f / 600.0f, 0.1f, 100.0f);
             shader.setMat4("model", model);
             shader.setMat4("view", view);
             // note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
