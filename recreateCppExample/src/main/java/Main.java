@@ -11,6 +11,7 @@ public class Main {
 
 //        exCoordinateSystems();
 //        rotatingCube();
-        multipleRotatingCubes();
+//        multipleRotatingCubes();
+        camera_7_1();
     }
 }
